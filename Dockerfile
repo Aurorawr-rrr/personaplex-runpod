@@ -33,8 +33,8 @@ WORKDIR /app/moshi
 RUN uv venv /app/moshi/.venv --python 3.12
 RUN uv sync
 
-# Install RunPod SDK
-RUN /app/moshi/.venv/bin/pip install runpod
+# Install RunPod SDK using uv
+RUN uv pip install --python /app/moshi/.venv/bin/python runpod
 
 # Create SSL directory
 RUN mkdir -p /app/ssl
