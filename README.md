@@ -5,9 +5,8 @@ This package deploys NVIDIA PersonaPlex-7B as a RunPod Serverless endpoint with 
 ## Prerequisites
 
 1. **GitHub** account (for automated builds via GitHub Actions)
-2. **Docker Hub** account (free tier works)
-3. **RunPod** account with billing configured
-4. **Hugging Face** account with PersonaPlex license accepted
+2. **RunPod** account with billing configured
+3. **Hugging Face** account with PersonaPlex license accepted
 
 ## Setup Instructions
 
@@ -17,37 +16,20 @@ This package deploys NVIDIA PersonaPlex-7B as a RunPod Serverless endpoint with 
 2. Log in and accept the license agreement
 3. Create an access token at [HuggingFace Settings](https://huggingface.co/settings/tokens)
 
-### Step 2: Set Up GitHub Repository
+### Step 2: Build the Image (Automatic via GitHub Actions)
 
-1. Create a new GitHub repository (e.g., `personaplex-runpod`)
-2. Push this folder to the repository:
-   ```bash
-   cd personaplex-runpod
-   git init
-   git add .
-   git commit -m "Initial commit: PersonaPlex RunPod deployment"
-   git branch -M main
-   git remote add origin https://github.com/YOUR_USERNAME/personaplex-runpod.git
-   git push -u origin main
-   ```
+The container image builds automatically when you push to `main`. You can also trigger manually:
 
-### Step 3: Configure GitHub Secrets
+1. Go to **Actions** tab in your GitHub repo
+2. Click **"Build and Push Container Image"**
+3. Click **"Run workflow"** → **"Run workflow"**
 
-Go to your GitHub repo → Settings → Secrets and variables → Actions, and add:
+The image is stored in GitHub Container Registry (no Docker Hub needed):
+`ghcr.io/aurorawr-rrr/personaplex-runpod:latest`
 
-| Secret Name | Value |
-|-------------|-------|
-| `DOCKERHUB_USERNAME` | Your Docker Hub username |
-| `DOCKERHUB_TOKEN` | Docker Hub access token ([create here](https://hub.docker.com/settings/security)) |
+**No secrets required** - GitHub Actions uses built-in `GITHUB_TOKEN` for authentication.
 
-### Step 4: Build the Image (Automatic)
-
-The image builds automatically when you push to `main`. You can also:
-- Go to Actions tab → "Build and Push Docker Image" → "Run workflow" to trigger manually
-
-Once built, your image will be at: `docker.io/YOUR_DOCKERHUB_USERNAME/personaplex-runpod:latest`
-
-### Step 4: Create RunPod Serverless Endpoint
+### Step 3: Create RunPod Serverless Endpoint
 
 1. Go to [RunPod Serverless](https://www.runpod.io/console/serverless)
 2. Click "New Endpoint"
@@ -56,7 +38,7 @@ Once built, your image will be at: `docker.io/YOUR_DOCKERHUB_USERNAME/personaple
 
 | Setting | Value |
 |---------|-------|
-| Container Image | `yourusername/personaplex-runpod:latest` |
+| Container Image | `ghcr.io/aurorawr-rrr/personaplex-runpod:latest` |
 | GPU | A100 80GB (recommended) or A100 40GB |
 | Min Workers | 0 (scales to zero) |
 | Max Workers | Based on expected concurrent users |
