@@ -1,0 +1,25 @@
+# Environment files
+.env
+.env.local
+*.env
+
+# Credentials
+credentials.json
+*.pem
+*.key
+
+# SSL certificates (local testing only)
+ssl/
+
+# IDE
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.pyc
+.venv/
